@@ -1,24 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Suspense, lazy, useState } from 'react';
 import './App.css';
+import ErrorBoundary from './ErrorBoundary';
+const Form = lazy(() => import('./Form'));
+const Comments = lazy(() => import('./Comments'));
 
 function App() {
+  const [comments, setComments] = useState(([]));
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1 id="title ">Welcome To My Blog</h1>
+      <p>this is my blog. what do u think about it? please tell me!</p>
+      <Suspense fallback={<h2>Loding...</h2>} >
+        <ErrorBoundary>
+          <Form comments={comments} setComments={setComments} />
+          <Comments comments={comments} />
+        </ErrorBoundary>
+      </Suspense>
     </div>
   );
 }
